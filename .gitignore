@@ -1,0 +1,12 @@
+.ipynb_checkpoints
+__pycache__
+.idea
+lookAt
+pretrained_model
+model
+model.h5
+mnist-fashion-model.h5
+.venv
+venv
+images
+request_images

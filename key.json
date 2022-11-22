@@ -1,0 +1,40 @@
+{
+  "type": "firebase-adminsdk-7bdbw@lookat-5d200.iam.gserviceaccount.com",
+  "project_info": {
+    "project_number": "1011683891027",
+    "project_id": "lookat-5d200",
+    "storage_bucket": "lookat-5d200.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011683891027:android:d28f2f89ed154f7345f3a6",
+        "android_client_info": {
+          "package_name": "look.at"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011683891027-dp7lkcs092rg8m4qdc4p0p3tbkv6jdj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALumiKUOd8yWLWoI2MKFwVoxHTtNBZbZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011683891027-dp7lkcs092rg8m4qdc4p0p3tbkv6jdj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
