@@ -25,7 +25,7 @@ class RemoveBG:
     def read_model():
 
         with CustomObjectScope({'iou': iou, 'dice_coef': dice_coef, 'dice_loss': dice_loss}):
-            model = tf.keras.models.load_model(r"./model.h5")
+            model = tf.keras.models.load_model(r"C:\Users\GSD Beast N10\Desktop\Projects\ml_models\model.h5")
             return model
 
     def remove_bg(self, path):

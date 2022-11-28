@@ -4,8 +4,11 @@ from io import BytesIO
 import numpy as np
 from keras.models import load_model
 from run import DeepFashion
+import tensorflow as tf
 from firebase_admin import credentials, initialize_app, storage
 import json
+import cv2 as cv
+from fashion_mnist_predict import predict
 
 
 def detect(regions, images):
@@ -24,6 +27,8 @@ class PersonDetection:
         self.image = image
         self.class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                             'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
+        self.model_path = r'C:\Users\GSD Beast N10\Desktop\Projects\ml_models'
 
     def convert_image(self):
 
@@ -47,13 +52,13 @@ class PersonDetection:
     def run(self):
         regions, image = self.read_image()
         detection = detect(regions=regions, images=image)
-        new_model = load_model('./model')
+        new_model = load_model(self.model_path + '\model')
         if detection is None:
             print('Person not detected')
-            predict_image = read_imagefile(image)
-            prediction = new_model.predict(predict_image)
-            predicted_label = self.class_names[np.argmax(prediction[0])]
-            return {'person_detection': 'false', 'Objects in image': f'{predicted_label}'}
+            # predict_image = self.read_image(image)  # TODO Fix this issue
+            # prediction = new_model.predict(predict_image)
+            # predicted_label = self.class_names[np.argmax(prediction[0])]
+            return False
 
         else:
 
@@ -70,5 +75,5 @@ class PersonDetection:
 
 if __name__ == '__main__':
     image_path = r'C:\Users\GSD Beast N10\Desktop\Projects\wallet\images\dress.jpg'
-    person_detection = PersonDetection(image_path=image_path)
+    person_detection = PersonDetection(image=image_path)
     person_detection.run()

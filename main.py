@@ -1,3 +1,5 @@
+import os
+
 import uvicorn
 from fastapi import FastAPI
 from colorthief import ColorThief
@@ -16,6 +18,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
 import glob
+import urllib
+from fashion_mnist_predict import predict
 
 
 class Item(BaseModel):
@@ -34,14 +38,16 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 
-def read_image(image_path):
-    image = cv.imread(image_path, cv.IMREAD_GRAYSCALE)
-    image = cv.resize(image, (28, 28))
-    image = image.astype('float32')
-    image = image.reshape(1, 28, 28, 1)
-    image = 255 - image
-    image /= 255
-    return image
+def clean_folder():
+    file_path = './request_images/ready image/*'
+    for f in glob.glob(file_path):
+        os.remove(f)
+
+    print('Cleaned successfully')
+
+
+def download_image(image_url):
+    urllib.request.urlretrieve(image_url, "./request_images/ready image/image.jpg")
 
 
 def get_images(image_url):
@@ -99,23 +105,34 @@ async def create_item(item: Item):
 
 @app.post("/api/upload/")
 async def get_image(item: Item):
+    clean_folder()  # Cleaning everything
     image = get_images(item.url)
+    download_image(item.url)
     person_detection = PersonDetection(image=image)
     person_check = person_detection.run()
-    user_id = item.user_id
+    single_image_path = r'./request_images/ready image/image.jpg'
+    if not person_check:
+        data = predict(single_image_path)
+        color_domination = colors_domination(single_image_path)
+        print(data)
+        return [{
+            'message': 'done', 'person detection': 'false', 'clothes': data, 'dominant color': color_domination
+        }]
 
-    image_path = f'./request_images/ready image/*.jpg'
-    count = 0
-    img_urls = None
-    for files in glob.glob(image_path):
-        count += 1
-        try:
-            img_urls = upload_file(users_ids=user_id, images_path=files, count=count)
-            print(img_urls)
-            print('Successfully uploaded...')
-        except Exception as e:
-            print(f'Failed!\n{e}')
-    return [{'message': 'done', 'upload_url': img_urls, 'founded_objects': person_check}]
+    else:
+        user_id = item.user_id
+        image_path = f'./request_images/ready image/*.jpg'
+        count = 0
+        img_urls = None
+        for files in glob.glob(image_path):
+            count += 1
+            try:
+                img_urls = upload_file(users_ids=user_id, images_path=files, count=count)
+                print(img_urls)
+                print('Successfully uploaded...')
+            except Exception as e:
+                print(f'Failed!\n{e}')
+        return [{'message': 'done', 'upload_url': img_urls, 'founded_objects': person_check}]
 
 
 @app.post('/api/predict/')
@@ -124,7 +141,7 @@ async def predict_image(id: FinalItem):
     images_name = Path(f'./request_images/ready image/crop_ready_{str(id.id)}.jpg').stem
     if images_path.is_file():
         predict_image_path = f'./request_images/ready image/{images_name}.jpg'
-        new_model = load_model('./model')
+        new_model = load_model(r'C:\Users\GSD Beast N10\Desktop\Projects\ml_models\model\model')
         remove_bg = RemoveBG()
         remove_bg.remove_bg(predict_image_path)
         new_path = f'remove_bg/{images_name}.png'
