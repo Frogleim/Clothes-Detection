@@ -10,3 +10,5 @@ mnist-fashion-model.h5
 venv
 images
 request_images
+serviceAccount.json
+key.json
