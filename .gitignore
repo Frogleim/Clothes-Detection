@@ -1,0 +1,16 @@
+.ipynb_checkpoints
+__pycache__
+.idea
+
+pretrained_model
+model
+model.h5
+mnist-fashion-model.h5
+.venv
+venv
+images
+request_images
+serviceAccount.json
+key.json
+rm_bg.ipynb
+rm_bg.py
