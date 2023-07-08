@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from keras.models import load_model
 
-model_path = r'C:\Users\GSD Beast N10\Desktop\Projects\ml_models'
+model_path = r'C:\Users\OMEN\Desktop\mobile app\ml_models'
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 

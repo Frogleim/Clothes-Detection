@@ -52,7 +52,7 @@ def Load_Model():
     t1 = time.time()
     model = YoloV3(classes=13)
     model.load_weights(
-        r'C:\Users\GSD Beast N10\Desktop\Projects\ml_models\deepfashion2_yolov3')  # TODO add DeepFashion model PATH
+        r'C:\Users\OMEN\Desktop\mobile app\ml_models\deepfashion2_yolov3')  # TODO add DeepFashion model PATH
     t2 = time.time()
     print('Load DeepFashion2 Yolo-v3 from disk: {:.2f} sec'.format(t2 - t1))
 

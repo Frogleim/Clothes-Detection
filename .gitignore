@@ -14,3 +14,7 @@ serviceAccount.json
 key.json
 rm_bg.ipynb
 rm_bg.py
+
+core/images
+core/models
+Untitled.ipynb

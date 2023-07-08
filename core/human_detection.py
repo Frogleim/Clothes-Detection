@@ -28,7 +28,7 @@ class PersonDetection:
         self.class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                             'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
-        self.model_path = r'C:\Users\GSD Beast N10\Desktop\Projects\ml_models'
+        self.model_path = r'C:\Users\OMEN\Desktop\mobile app\ml_models'
 
     def convert_image(self):
 

@@ -1,5 +1,6 @@
 import os
 import time
+from core import age_gender_detection
 from fastapi import FastAPI, File, UploadFile
 from colorthief import ColorThief
 from keras.models import load_model
@@ -75,7 +76,7 @@ def colors_domination(file):
         return {'colors': dominant_color, 'dominant_color': 'Dominant color is BLUE'}
 
 
-@app.post("/api/load_image/")
+@app.post("/api/predict/")
 async def get_image(item: Item):
     clean_folder()  # Cleaning everything
     image = get_images(item.url)
@@ -93,12 +94,15 @@ async def get_image(item: Item):
         return [{'result': data, 'person detection': 'false', 'dominant_color': dom_color}]
     else:
         data_person = with_person(image)
+        gender = age_gender_detection.GenderDetection()
+        gender_res = gender.age_gender_detector(item.url)
+
         folder_path = "./core/images/request_images/first step/"
         for filename in os.listdir(folder_path):
             file_path = os.path.join(folder_path, filename)
             if os.path.isfile(file_path):
                 dom_color = colors_domination(file_path)
-        return [{'result': data_person, 'person detection': 'true', 'dominant_color': dom_color}]
+        return [{'result': data_person, 'person detection': 'true', 'dominant_color': dom_color, "gender": gender_res}]
 
 
 @app.get('/')
